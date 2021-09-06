@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: server-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: server
+  template:
+    metadata:
+      name: server-pod
+      labels:
+        app: server
+    spec:
+      containers:
+        - name: server
+          image: laithharb/server:v2
+          resources:
+            requests:
+              memory: 200Mi
+              cpu: 100m
+          env:
+            - name: MONGO_URL 
+              valueFrom:
+                secretKeyRef:
+                  name: mongo-credentials
+                  key: mongo-url
+            # name: MONGO_URL
+            # value: mongodb://mongo-srv/habits
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: server-srv
+spec:
+  type: NodePort
+  selector:
+    app: server
+  ports:
+    - protocol: TCP
+      port: 3000
+      targetPort: 3000
+      nodePort: 30005
