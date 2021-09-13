@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: client-depl
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: client
@@ -16,6 +16,13 @@ spec:
       containers:
         - name: client
           image: laithharb/web-app:v2
+          resources:
+            limits:
+              cpu: "0.5" 
+              memory: "400Mi"
+            requests:
+              memory: 300Mi
+              cpu: 200m
 
 ---
 

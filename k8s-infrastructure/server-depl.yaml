@@ -17,9 +17,12 @@ spec:
         - name: server
           image: laithharb/server:v2
           resources:
-            requests:
-              memory: 200Mi
-              cpu: 100m
+          limits:
+            cpu: "0.5" 
+            memory: "400Mi"
+          requests:
+            memory: 300Mi
+            cpu: 200m
           env:
             - name: MONGO_URL 
               valueFrom:
